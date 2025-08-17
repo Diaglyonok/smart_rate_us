@@ -9,7 +9,11 @@ It's a flutter package for intelligent app rating prompts with customizable UI a
 
 ## Video:
 
-![abc](https://github.com/user-attachments/assets/a7c7366c-11ff-4e5a-8cd3-295f855c5998)
+
+
+https://github.com/user-attachments/assets/c6a7e39b-4f46-49a9-bbad-2c6c2c039c3e
+
+
 
 ## Features
 
