@@ -1,7 +1,7 @@
 # Smart Rate Us
 
-A Flutter package for intelligent app rating prompts with customizable UI and analytics-driven triggers.
-### This package will improve your app's rating and search position by intelligently filtering negative reviews from your users.
+### This wrapper will improve your app's rating and search position by intelligently filtering negative reviews from your users.
+It's a flutter package for intelligent app rating prompts with customizable UI and analytics-driven triggers.
 
 ## Principle
 
