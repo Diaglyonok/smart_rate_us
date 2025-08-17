@@ -1,0 +1,1 @@
+enum ListenersType { loadListener, updateListener }

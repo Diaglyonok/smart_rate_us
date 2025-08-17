@@ -1,0 +1,35 @@
+name: smart_rate_us
+description: "A Flutter package for smart app rating prompts with customizable UI and analytics-driven triggers."
+version: 1.0.0
+homepage: https://github.com/Diaglyonok/smart_rate_us
+repository: https://github.com/Diaglyonok/smart_rate_us
+issue_tracker: https://github.com/Diaglyonok/smart_rate_us/issues
+
+topics:
+  - flutter
+  - rating
+  - feedback
+  - in-app-review
+  - animations
+
+environment:
+  sdk: ^3.8.0
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_bloc: ^9.1.1
+  clean_cubit_reactor: ^1.0.3
+  shared_preferences: ^2.5.3
+  freezed: ^3.2.0
+  freezed_annotation: ^3.1.0
+  json_serializable: ^6.10.0
+  package_info_plus: ^8.3.1
+  in_app_review: ^2.0.10
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  build_runner: ^2.6.0
