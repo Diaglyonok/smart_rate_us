@@ -10,6 +10,7 @@ Widget buildDefaultWriteUsPageWidget(
   return DefaultWriteFeedbackScreen(
     isButtonLoading: isLoading,
     onSend: onSend,
+    userEmail: 'user@example.com',
     config: DefaultWriteFeedbackConfig(
       howBecomeBetterText: 'How can we become better?',
       pleaseDescribeIssuesText: 'Please describe the issues',
@@ -23,7 +24,6 @@ Widget buildDefaultWriteUsPageWidget(
 }
 
 class DefaultWriteFeedbackConfig {
-  final String? userEmail;
   final String howBecomeBetterText;
   final String pleaseDescribeIssuesText;
   final String emailText;
@@ -33,7 +33,6 @@ class DefaultWriteFeedbackConfig {
   final String sendFeedbackText;
 
   const DefaultWriteFeedbackConfig({
-    this.userEmail,
     required this.howBecomeBetterText,
     required this.pleaseDescribeIssuesText,
     required this.emailText,
@@ -47,6 +46,7 @@ class DefaultWriteFeedbackConfig {
 class DefaultWriteFeedbackScreen extends StatefulWidget {
   final DefaultWriteFeedbackConfig config;
   final bool isButtonLoading;
+  final String? userEmail;
   final void Function(Map<String, dynamic> feedback) onSend;
 
   const DefaultWriteFeedbackScreen({
@@ -54,15 +54,14 @@ class DefaultWriteFeedbackScreen extends StatefulWidget {
     required this.config,
     required this.isButtonLoading,
     required this.onSend,
+    this.userEmail,
   });
 
   @override
-  State<DefaultWriteFeedbackScreen> createState() =>
-      _DefaultWriteFeedbackScreenState();
+  State<DefaultWriteFeedbackScreen> createState() => _DefaultWriteFeedbackScreenState();
 }
 
-class _DefaultWriteFeedbackScreenState
-    extends State<DefaultWriteFeedbackScreen> {
+class _DefaultWriteFeedbackScreenState extends State<DefaultWriteFeedbackScreen> {
   late TextEditingController emailController;
   final TextEditingController controller = TextEditingController();
   final FocusNode feedbackFocusNode = FocusNode();
@@ -70,9 +69,7 @@ class _DefaultWriteFeedbackScreenState
   @override
   void initState() {
     super.initState();
-    emailController = TextEditingController(
-      text: widget.config.userEmail ?? '',
-    );
+    emailController = TextEditingController(text: widget.userEmail ?? '');
   }
 
   @override
@@ -95,9 +92,7 @@ class _DefaultWriteFeedbackScreenState
         appBar: AppBar(
           title: Text(
             widget.config.howBecomeBetterText,
-            style: Theme.of(
-              context,
-            ).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.bold),
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.bold),
           ),
         ),
         body: Builder(
@@ -114,8 +109,9 @@ class _DefaultWriteFeedbackScreenState
                       children: [
                         Text(
                           '${widget.config.emailText} (${widget.config.emailForResposeDescriptionText}):',
-                          style: Theme.of(context).textTheme.bodyMedium!
-                              .copyWith(color: theme.colorScheme.onSurface),
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodyMedium!.copyWith(color: theme.colorScheme.onSurface),
                         ),
                         TextField(
                           selectionControls: getControls(context),
@@ -125,13 +121,10 @@ class _DefaultWriteFeedbackScreenState
                             feedbackFocusNode.requestFocus();
                           },
                           textInputAction: TextInputAction.next,
-                          style: Theme.of(context).textTheme.bodyMedium!
-                              .copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: theme.colorScheme.onSurface.withValues(
-                                  alpha: 1,
-                                ),
-                              ),
+                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: theme.colorScheme.onSurface.withValues(alpha: 1),
+                          ),
                           keyboardType: TextInputType.text,
                           cursorColor: Theme.of(context).colorScheme.secondary,
                           cursorWidth: 1.0,
@@ -141,8 +134,9 @@ class _DefaultWriteFeedbackScreenState
                         const SizedBox(height: 28),
                         Text(
                           widget.config.pleaseDescribeIssuesText,
-                          style: Theme.of(context).textTheme.bodyMedium!
-                              .copyWith(color: theme.colorScheme.onSurface),
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodyMedium!.copyWith(color: theme.colorScheme.onSurface),
                         ),
                         TextField(
                           selectionControls: getControls(context),
@@ -152,11 +146,10 @@ class _DefaultWriteFeedbackScreenState
                           focusNode: feedbackFocusNode,
                           onSubmitted: (value) => _send(context),
                           textInputAction: TextInputAction.send,
-                          style: Theme.of(context).textTheme.bodyMedium!
-                              .copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: theme.colorScheme.onSurface,
-                              ),
+                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: theme.colorScheme.onSurface,
+                          ),
                           keyboardType: TextInputType.text,
                           cursorColor: Theme.of(context).colorScheme.secondary,
                           cursorWidth: 1.0,
@@ -186,15 +179,13 @@ class _DefaultWriteFeedbackScreenState
 
   void _send(BuildContext context) {
     if (controller.text == '') {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(widget.config.writeYourFeedbackHereText)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(widget.config.writeYourFeedbackHereText)));
       return;
     }
 
-    final String? email = emailController.text == ''
-        ? widget.config.userEmail
-        : emailController.text;
+    final String? email = emailController.text == '' ? widget.userEmail : emailController.text;
 
     if ((email ?? '').isEmpty) {
       ScaffoldMessenger.of(
