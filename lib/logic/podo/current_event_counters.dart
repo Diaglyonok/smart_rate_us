@@ -1,21 +1,75 @@
 // https://github.com/rrousselGit/freezed/issues/488
 // ignore_for_file: invalid_annotation_target
 
-import 'package:freezed_annotation/freezed_annotation.dart';
+// Note: Didn't use freezed to avoid dependencies issues in future
 
-part 'current_event_counters.freezed.dart';
-part 'current_event_counters.g.dart';
+import 'package:smart_rate_us/utils/map_utils.dart';
 
-@freezed
-abstract class CurrentFeedbackCounters with _$CurrentFeedbackCounters {
-  @JsonSerializable(explicitToJson: true)
-  factory CurrentFeedbackCounters({
-    final Map<String, int>? events,
-    final String? savedAppVersion,
-    @Default(false) bool? feedbackDialogShown,
+class CurrentFeedbackCounters {
+  final Map<String, int>? events;
+  final String? savedAppVersion;
+  final bool? feedbackDialogShown;
+  final int? feedbackDelayDateMillis;
+
+  const CurrentFeedbackCounters({
+    this.events,
+    this.savedAppVersion,
+    this.feedbackDialogShown = false,
+    this.feedbackDelayDateMillis,
+  });
+
+  CurrentFeedbackCounters copyWith({
+    Map<String, int>? events,
+    String? savedAppVersion,
+    bool? feedbackDialogShown,
     int? feedbackDelayDateMillis,
-  }) = _CurrentFeedbackCounterss;
+  }) {
+    return CurrentFeedbackCounters(
+      events: events ?? this.events,
+      savedAppVersion: savedAppVersion ?? this.savedAppVersion,
+      feedbackDialogShown: feedbackDialogShown ?? this.feedbackDialogShown,
+      feedbackDelayDateMillis: feedbackDelayDateMillis ?? this.feedbackDelayDateMillis,
+    );
+  }
 
-  factory CurrentFeedbackCounters.fromJson(Map<String, dynamic> json) =>
-      _$CurrentFeedbackCountersFromJson(json);
+  Map<String, dynamic> toJson() {
+    return {
+      'events': events,
+      'savedAppVersion': savedAppVersion,
+      'feedbackDialogShown': feedbackDialogShown,
+      'feedbackDelayDateMillis': feedbackDelayDateMillis,
+    };
+  }
+
+  factory CurrentFeedbackCounters.fromJson(Map<String, dynamic> json) {
+    return CurrentFeedbackCounters(
+      events: json['events'] != null ? Map<String, int>.from(json['events'] as Map) : null,
+      savedAppVersion: json['savedAppVersion'] as String?,
+      feedbackDialogShown: json['feedbackDialogShown'] as bool? ?? false,
+      feedbackDelayDateMillis: json['feedbackDelayDateMillis'] as int?,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is CurrentFeedbackCounters &&
+        mapEquals(other.events, events) &&
+        other.savedAppVersion == savedAppVersion &&
+        other.feedbackDialogShown == feedbackDialogShown &&
+        other.feedbackDelayDateMillis == feedbackDelayDateMillis;
+  }
+
+  @override
+  int get hashCode {
+    return events.hashCode ^
+        savedAppVersion.hashCode ^
+        feedbackDialogShown.hashCode ^
+        feedbackDelayDateMillis.hashCode;
+  }
+
+  @override
+  String toString() {
+    return 'CurrentFeedbackCounters(events: $events, savedAppVersion: $savedAppVersion, feedbackDialogShown: $feedbackDialogShown, feedbackDelayDateMillis: $feedbackDelayDateMillis)';
+  }
 }
