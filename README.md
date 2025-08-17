@@ -5,15 +5,11 @@ It's a flutter package for intelligent app rating prompts with customizable UI a
 
 ## Principle
 
-//will be added scheme later, don't touch
+<img width="960" height="777" alt="Untitled diagram _ Mermaid Chart-2025-08-17-221720" src="https://github.com/user-attachments/assets/5d470753-bb25-4cbe-a884-5d4f62564c2d" />
 
-## Video:
-
-
+## Video (demo):
 
 https://github.com/user-attachments/assets/c6a7e39b-4f46-49a9-bbad-2c6c2c039c3e
-
-
 
 ## Features
 
