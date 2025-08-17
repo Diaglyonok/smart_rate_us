@@ -7,6 +7,10 @@ It's a flutter package for intelligent app rating prompts with customizable UI a
 
 //will be added scheme later, don't touch
 
+## Video:
+
+![abc](https://github.com/user-attachments/assets/a7c7366c-11ff-4e5a-8cd3-295f855c5998)
+
 ## Features
 
 - **Smart Triggering**: Show rating prompts based on user actions and engagement metrics
