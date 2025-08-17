@@ -28,7 +28,8 @@ class CurrentFeedbackCounters {
       events: events ?? this.events,
       savedAppVersion: savedAppVersion ?? this.savedAppVersion,
       feedbackDialogShown: feedbackDialogShown ?? this.feedbackDialogShown,
-      feedbackDelayDateMillis: feedbackDelayDateMillis ?? this.feedbackDelayDateMillis,
+      feedbackDelayDateMillis:
+          feedbackDelayDateMillis ?? this.feedbackDelayDateMillis,
     );
   }
 
@@ -43,7 +44,9 @@ class CurrentFeedbackCounters {
 
   factory CurrentFeedbackCounters.fromJson(Map<String, dynamic> json) {
     return CurrentFeedbackCounters(
-      events: json['events'] != null ? Map<String, int>.from(json['events'] as Map) : null,
+      events: json['events'] != null
+          ? Map<String, int>.from(json['events'] as Map)
+          : null,
       savedAppVersion: json['savedAppVersion'] as String?,
       feedbackDialogShown: json['feedbackDialogShown'] as bool? ?? false,
       feedbackDelayDateMillis: json['feedbackDelayDateMillis'] as int?,

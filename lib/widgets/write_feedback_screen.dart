@@ -4,6 +4,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_rate_us/logic/feedback_repository.dart';
 import 'package:smart_rate_us/logic/feedback_update_bloc.dart';
 
+/// Function signature for building the feedback collection page UI.
+///
+/// [context] - The build context
+/// [isLoading] - Whether feedback is currently being sent
+/// [onSend] - Callback to send feedback data to the backend
+///
+/// The builder should create a form or interface that allows users to
+/// provide feedback and call [onSend] with the collected data.
 typedef WriteFeedbackPageBuilder =
     Widget Function(
       BuildContext context,
@@ -11,15 +19,58 @@ typedef WriteFeedbackPageBuilder =
       void Function(Map<String, dynamic> feedback) onSend,
     );
 
+/// Screen widget for collecting user feedback.
+///
+/// This widget provides a customizable interface for users to submit feedback
+/// when they've indicated they want to provide improvement suggestions.
+///
+/// The screen manages the feedback submission state and handles success/failure
+/// scenarios through the provided callbacks.
+///
+/// Features:
+/// - Loading state management during feedback submission
+/// - Success callback handling
+/// - Integration with FeedbackRepository for data persistence
+/// - BLoC pattern for state management
+///
+/// Example:
+/// ```dart
+/// WriteFeedbackScreen(
+///   builder: (context, isLoading, onSend) {
+///     return YourFeedbackForm(
+///       isLoading: isLoading,
+///       onSubmit: (feedbackData) => onSend(feedbackData),
+///     );
+///   },
+///   onFinalSuccessCallback: (context) async {
+///     // Show success message
+///     Navigator.pop(context);
+///   },
+/// )
+/// ```
 class WriteFeedbackScreen extends StatefulWidget {
-  final WriteFeedbackPageBuilder builder;
-  final Future<void> Function(BuildContext context)? onFinalSuccessCallback;
-
+  /// Creates a WriteFeedbackScreen.
+  ///
+  /// [builder] - Function that builds the feedback collection UI
+  /// [onFinalSuccessCallback] - Callback when feedback is successfully sent
   const WriteFeedbackScreen({
     super.key,
     required this.builder,
     required this.onFinalSuccessCallback,
   });
+
+  /// Builder function for creating the feedback collection UI.
+  ///
+  /// The builder receives the current loading state and a callback function
+  /// for sending feedback data. It should render appropriate UI based on
+  /// the loading state and call the onSend callback when ready to submit.
+  final WriteFeedbackPageBuilder builder;
+
+  /// Callback executed when feedback is successfully submitted.
+  ///
+  /// This can be used to show success messages, navigate away from the
+  /// feedback screen, or perform other post-submission actions.
+  final Future<void> Function(BuildContext context)? onFinalSuccessCallback;
 
   @override
   State<WriteFeedbackScreen> createState() => _WriteFeedbackScreenState();

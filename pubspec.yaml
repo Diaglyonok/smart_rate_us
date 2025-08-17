@@ -1,6 +1,6 @@
 name: smart_rate_us
 description: "A Flutter package for smart app rating prompts with customizable UI and analytics-driven triggers."
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/Diaglyonok/smart_rate_us
 repository: https://github.com/Diaglyonok/smart_rate_us
 issue_tracker: https://github.com/Diaglyonok/smart_rate_us/issues

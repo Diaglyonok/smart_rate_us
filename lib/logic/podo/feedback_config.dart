@@ -7,7 +7,11 @@ class FeedbackConfig {
   final int? expirationDelayDays;
   final bool? doNotDisturbOnNewVersion;
 
-  const FeedbackConfig({this.events, this.expirationDelayDays, this.doNotDisturbOnNewVersion});
+  const FeedbackConfig({
+    this.events,
+    this.expirationDelayDays,
+    this.doNotDisturbOnNewVersion,
+  });
 
   Map<String, dynamic> toJson() {
     return {
@@ -19,7 +23,9 @@ class FeedbackConfig {
 
   factory FeedbackConfig.fromJson(Map<String, dynamic> json) {
     return FeedbackConfig(
-      events: json['events'] != null ? Map<String, int>.from(json['events'] as Map) : null,
+      events: json['events'] != null
+          ? Map<String, int>.from(json['events'] as Map)
+          : null,
       expirationDelayDays: json['expiration_delay_days'] as int?,
       doNotDisturbOnNewVersion: json['do_not_disturb_on_new_version'] as bool?,
     );
@@ -36,7 +42,9 @@ class FeedbackConfig {
 
   @override
   int get hashCode {
-    return events.hashCode ^ expirationDelayDays.hashCode ^ doNotDisturbOnNewVersion.hashCode;
+    return events.hashCode ^
+        expirationDelayDays.hashCode ^
+        doNotDisturbOnNewVersion.hashCode;
   }
 
   @override

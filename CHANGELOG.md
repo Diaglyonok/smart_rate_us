@@ -33,3 +33,8 @@
 ### Getting Started
 
 See README.md for detailed implementation guide and examples.
+
+
+## 1.0.1
+
+Updated Readme.md
