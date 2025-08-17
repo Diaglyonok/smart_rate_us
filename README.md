@@ -1,6 +1,11 @@
 # Smart Rate Us
 
-A Flutter package for smart app rating prompts with customizable UI and analytics-driven triggers.
+A Flutter package for intelligent app rating prompts with customizable UI and analytics-driven triggers.
+This package will improve your app's rating and search position by intelligently filtering negative reviews from your users.
+
+## Principle
+
+//will be added scheme later, don't touch
 
 ## Features
 
@@ -36,7 +41,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: FeedbackWrapper(
         feedbackConfig: FeedbackWrapperConfig.defaultConfig(
-          feedbackService: YourFeedbackService(), // Implement FeedbackService
+          // Implement FeedbackService - use FakeFeedbackService as an example
+          feedbackService: YourFeedbackService(),
         ),
         child: YourMainWidget(),
       ),
@@ -45,6 +51,20 @@ class MyApp extends StatelessWidget {
 }
 ```
 
+**Note**: This uses default configurations and UI. Try it to see how it looks and works for you.
+It uses non-localized English strings. You can check the implementation and adjust it for your needs.
+
+Check the implementation of:
+- `DefaultFeedbackConfigsRepository`
+- `buildDefaultDialogWidget`
+- `buildDefaultWriteUsPageWidget`
+- `defaultOpenDialogCallback`
+- `FeedbackWrapperConfig.defaultConfig`
+
+for examples.
+
+Every UI step, loading of configurations, and sending messages to your service are fully adjustable for your needs.
+
 ### Trigger Rating Prompts
 
 ```dart
@@ -52,7 +72,11 @@ class MyApp extends StatelessWidget {
 FeedbackRepoProvider.of(context)?.addCounterAndCheck('success_action_5');
 ```
 
+Or use the `onRepositoryCreated` callback to save `FeedbackRepo` to your own DI container and use it later.
+
 ### Custom Dialog UI
+
+**Recommended**: Use `FeedbackWrapperConfig.defaultConfig` default values as examples and configure your own.
 
 ```dart
 FeedbackWrapperConfig(
@@ -73,13 +97,14 @@ FeedbackWrapperConfig(
   },
   onFinalSuccessCallback: (context) async {
     // Handle success
+    // Show your dialogs here, then call Navigator.of(context).pop(); to close write feedback route
   },
 )
 ```
 
 ### Animated Stars Widget
 
-Use the included animated stars widget:
+Use the included animated stars widget in `DoYouLoveUsDefaultDialog` or in your own implementation.
 
 ```dart
 DefaultStarsView(
@@ -107,6 +132,17 @@ The package supports event-based triggering with configurable thresholds:
   "do_not_disturb_on_new_version": true
 }
 ```
+
+You can create your own events with custom names and counts.
+Other fields can also be configured in a `ConfigsService`.
+
+Use `DefaultFeedbackConfigsRepository` as an example.
+
+- **events**: Success cases where the value represents the number of cases required to trigger the dialog
+- **expiration_delay_days**: When a user clicks "Remind me later", it will be delayed for that many days
+- **do_not_disturb_on_new_version**: Configuration that resets all current settings after a new release
+
+These settings can be stored in Firebase Remote Config or your own service and can be adjusted anytime.
 
 ## Implementation Requirements
 
