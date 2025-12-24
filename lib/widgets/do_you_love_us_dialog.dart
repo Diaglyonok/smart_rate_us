@@ -64,6 +64,8 @@ class DoYouLoveUsDialog extends StatefulWidget {
     super.key,
     required this.writeFeedbackPageBuilder,
     required this.onFinalSuccessCallback,
+    required this.onPopCallback,
+    required this.onWriteFeedbackCallback,
     this.dialogBuilder,
     this.feedbackUpdateCubit,
   });
@@ -84,6 +86,15 @@ class DoYouLoveUsDialog extends StatefulWidget {
   /// Can be used to show success dialogs or navigate to other screens.
   final Future<void> Function(BuildContext context)? onFinalSuccessCallback;
 
+  /// Callback executed when navigation should go back.
+  /// Used for closing the dialog or feedback screen.
+  final Future<void> Function(BuildContext context) onPopCallback;
+
+  /// Callback executed when navigating to the feedback writing screen.
+  /// Receives the context and the pre-built feedback page widget.
+  final Future<void> Function(BuildContext context, Widget writeFeedbackPage)
+  onWriteFeedbackCallback;
+
   @override
   State<DoYouLoveUsDialog> createState() => _DoYouLoveUsDialogState();
 }
@@ -96,7 +107,7 @@ class _DoYouLoveUsDialogState extends State<DoYouLoveUsDialog> {
     return widget.dialogBuilder!.call(
       context,
       () async {
-        Navigator.of(context).pop();
+        widget.onPopCallback.call(context);
         final InAppReview inAppReview = InAppReview.instance;
 
         if (await inAppReview.isAvailable()) {
@@ -104,23 +115,21 @@ class _DoYouLoveUsDialogState extends State<DoYouLoveUsDialog> {
         }
       },
       () {
-        Navigator.of(context).pop();
-        Navigator.of(context).push<void>(
-          MaterialPageRoute(
-            builder: (context) {
-              return RepositoryProvider.value(
-                value: repository,
-                child: WriteFeedbackScreen(
-                  builder: widget.writeFeedbackPageBuilder,
-                  onFinalSuccessCallback: widget.onFinalSuccessCallback,
-                ),
-              );
-            },
+        widget.onPopCallback.call(context);
+        widget.onWriteFeedbackCallback(
+          context,
+          RepositoryProvider.value(
+            value: repository,
+            child: WriteFeedbackScreen(
+              onPopCallback: widget.onPopCallback,
+              builder: widget.writeFeedbackPageBuilder,
+              onFinalSuccessCallback: widget.onFinalSuccessCallback,
+            ),
           ),
         );
       },
       () {
-        Navigator.of(context).pop();
+        widget.onPopCallback.call(context);
         widget.feedbackUpdateCubit?.delayDialog();
       },
     );
@@ -128,7 +137,7 @@ class _DoYouLoveUsDialogState extends State<DoYouLoveUsDialog> {
 
   VoidCallback callback(VoidCallback action) {
     return () {
-      Navigator.of(context).pop();
+      widget.onPopCallback.call(context);
       action.call();
     };
   }

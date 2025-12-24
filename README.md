@@ -100,8 +100,20 @@ FeedbackWrapperConfig(
     );
   },
   onFinalSuccessCallback: (context) async {
-    // Handle success
-    // Show your dialogs here, then call Navigator.of(context).pop(); to close write feedback route
+    // Handle success - show your dialogs here
+  },
+  // Navigation callbacks - customize for your router
+  onPopCallback: (context) async {
+    // For Navigator: Navigator.of(context).pop();
+    // For go_router: context.pop();
+    // For AutoRoute: context.router.back();
+    Navigator.of(context).pop();
+  },
+  onWriteFeedbackCallback: (context, page) async {
+    // For Navigator: 
+    await Navigator.of(context).push(MaterialPageRoute(builder: (_) => page));
+    // For go_router: context.push('/feedback');
+    // For AutoRoute: context.router.push(FeedbackRoute());
   },
 )
 ```
@@ -117,6 +129,35 @@ DefaultStarsView(
     color: Colors.amber,
     size: 48,
   ),
+)
+```
+
+### Router Support
+
+The package supports custom navigation through callback functions, making it compatible with any Flutter router:
+
+#### Default Configuration (Navigator)
+```dart
+FeedbackWrapperConfig.defaultConfig(
+  feedbackService: YourFeedbackService(),
+)
+```
+
+#### With go_router
+```dart
+FeedbackWrapperConfig(
+  // ... other config
+  onPopCallback: (context) async => context.pop(),
+  onWriteFeedbackCallback: (context, page) async => context.push('/feedback'),
+)
+```
+
+#### With AutoRoute
+```dart
+FeedbackWrapperConfig(
+  // ... other config  
+  onPopCallback: (context) async => context.router.back(),
+  onWriteFeedbackCallback: (context, page) async => context.router.push(FeedbackRoute()),
 )
 ```
 

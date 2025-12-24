@@ -35,6 +35,40 @@
 See README.md for detailed implementation guide and examples.
 
 
+## 1.1.0
+
+### 🚀 Breaking Changes
+
+* **Router Support**: Added navigation callbacks for custom router compatibility
+  - Added `onPopCallback` parameter to `FeedbackWrapperConfig`
+  - Added `onWriteFeedbackCallback` parameter to `FeedbackWrapperConfig`
+  - Both callbacks are now required in custom configurations
+  - `FeedbackWrapperConfig.defaultConfig()` provides backward-compatible defaults
+
+### ✨ New Features
+
+* **Custom Router Compatibility**: Full support for go_router, AutoRoute, and other custom routers
+* **Navigation Flexibility**: No more hard dependency on `Navigator.of(context)`
+* **Improved Documentation**: Added router examples in README and code documentation
+
+### 🛠️ Improvements
+
+* **Code Quality**: Fixed deprecated `Matrix4.translate()` warnings
+* **Formatting**: Applied consistent Dart formatting across all files
+* **iOS Compatibility**: Updated minimum iOS version to 13.0
+* **Dependencies**: Changed `flutter_bloc` to flexible version constraint
+
+### 📚 Documentation
+
+* Added router support examples in README
+* Improved API documentation with usage examples
+* Added migration examples for different router types
+
+### 🧪 Testing
+
+* All existing tests continue to pass
+* Added proper callback handling in test scenarios
+
 ## 1.0.1
 
 Updated Readme.md

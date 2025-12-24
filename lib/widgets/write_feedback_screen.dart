@@ -57,6 +57,7 @@ class WriteFeedbackScreen extends StatefulWidget {
     super.key,
     required this.builder,
     required this.onFinalSuccessCallback,
+    required this.onPopCallback,
   });
 
   /// Builder function for creating the feedback collection UI.
@@ -71,6 +72,10 @@ class WriteFeedbackScreen extends StatefulWidget {
   /// This can be used to show success messages, navigate away from the
   /// feedback screen, or perform other post-submission actions.
   final Future<void> Function(BuildContext context)? onFinalSuccessCallback;
+
+  /// Callback executed when navigation should go back.
+  /// Used for closing the feedback screen after successful submission.
+  final Future<void> Function(BuildContext context) onPopCallback;
 
   @override
   State<WriteFeedbackScreen> createState() => _WriteFeedbackScreenState();
@@ -102,7 +107,7 @@ class _WriteFeedbackScreenState extends State<WriteFeedbackScreen> {
           void defaultFinalCallback() {
             if (context.mounted &&
                 (ModalRoute.of(context)?.isCurrent ?? false)) {
-              Navigator.of(context).pop();
+              widget.onPopCallback.call(context);
             }
           }
 

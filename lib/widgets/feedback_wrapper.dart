@@ -35,15 +35,43 @@ class FeedbackWrapperConfig {
   /// Callback function executed when feedback is successfully sent
   final Future<void> Function(BuildContext context)? onFinalSuccessCallback;
 
+  /// Callback function executed when navigation should go back (e.g., closing dialogs or screens).
+  /// This allows custom navigation handling, especially useful with custom routers like go_router.
+  ///
+  /// Example with go_router:
+  /// ```dart
+  /// onPopCallback: (context) async => context.pop()
+  /// ```
+  final Future<void> Function(BuildContext context)? onPopCallback;
+
+  /// Callback function executed when navigating to the feedback writing screen.
+  /// This allows custom navigation handling, especially useful with custom routers.
+  ///
+  /// Example with go_router:
+  /// ```dart
+  /// onWriteFeedbackCallback: (context, page) async => context.push('/feedback')
+  /// ```
+  ///
+  /// Example with Navigator:
+  /// ```dart
+  /// onWriteFeedbackCallback: (context, page) async {
+  ///   await Navigator.of(context).push(MaterialPageRoute(builder: (_) => page));
+  /// }
+  /// ```
+  final Future<void> Function(BuildContext context, Widget writeFeedbackPage)
+  onWriteFeedbackCallback;
+
   /// Creates a new FeedbackWrapperConfig with custom configurations.
   ///
   /// All parameters are required for a fully customized feedback experience.
   FeedbackWrapperConfig({
     required this.writeFeedbackPageBuilder,
+    required this.onPopCallback,
     required this.onFinalSuccessCallback,
     required this.feedbackService,
     required this.remoteConfigRepo,
     required this.doYouLoveUsDialogBuilder,
+    required this.onWriteFeedbackCallback,
   });
 
   /// Creates a FeedbackWrapperConfig with default configurations.
@@ -56,9 +84,13 @@ class FeedbackWrapperConfig {
   /// - Uses buildDefaultDialogWidget for dialog UI
   /// - Uses buildDefaultWriteUsPageWidget for feedback page UI
   /// - Uses defaultOpenDialogCallback for success handling
+  /// - Uses defaultPopCallback for navigation back (Navigator.pop)
+  /// - Uses defaultWriteFeedbackCallback for feedback navigation (Navigator.push)
   FeedbackWrapperConfig.defaultConfig({required this.feedbackService})
     : remoteConfigRepo = DefaultFeedbackConfigsRepository(),
+      onPopCallback = defaultPopCallback,
       doYouLoveUsDialogBuilder = buildDefaultDialogWidget,
+      onWriteFeedbackCallback = defaultWriteFeedbackCallback,
       writeFeedbackPageBuilder = buildDefaultWriteUsPageWidget,
       onFinalSuccessCallback = defaultOpenDialogCallback;
 }
@@ -148,6 +180,9 @@ class _FeedbackWrapperState extends State<FeedbackWrapper> {
                         builder: (context) => RepositoryProvider.value(
                           value: repo,
                           child: DoYouLoveUsDialog(
+                            onPopCallback: widget.feedbackConfig.onPopCallback!,
+                            onWriteFeedbackCallback:
+                                widget.feedbackConfig.onWriteFeedbackCallback,
                             writeFeedbackPageBuilder:
                                 widget.feedbackConfig.writeFeedbackPageBuilder,
                             onFinalSuccessCallback:

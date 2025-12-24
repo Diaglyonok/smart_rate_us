@@ -55,6 +55,20 @@ void main() {
         home: RepositoryProvider.value(
           value: feedbackRepository,
           child: DoYouLoveUsDialog(
+            onWriteFeedbackCallback: (context, page) async {
+              await Navigator.of(context).push<void>(
+                MaterialPageRoute(
+                  builder: (context) {
+                    return page;
+                  },
+                ),
+              );
+            },
+            onPopCallback: (context) async {
+              if (context.mounted) {
+                Navigator.of(context).pop();
+              }
+            },
             dialogBuilder:
                 dialogBuilder ??
                 (context, onLike, onDislike, onRemindLater) {

@@ -41,6 +41,20 @@ void main() {
     test('creates config with required parameters', () {
       final feedbackService = MockFeedbackService();
       final config = FeedbackWrapperConfig(
+        onWriteFeedbackCallback: (context, page) async {
+          await Navigator.of(context).push<void>(
+            MaterialPageRoute(
+              builder: (context) {
+                return page;
+              },
+            ),
+          );
+        },
+        onPopCallback: (context) async {
+          if (context.mounted) {
+            Navigator.of(context).pop();
+          }
+        },
         feedbackService: feedbackService,
         remoteConfigRepo: MockConfigsService(),
         doYouLoveUsDialogBuilder: (context, onLike, onDislike, onRemindLater) =>
@@ -76,6 +90,20 @@ void main() {
 
     setUp(() {
       config = FeedbackWrapperConfig(
+        onWriteFeedbackCallback: (context, page) async {
+          await Navigator.of(context).push<void>(
+            MaterialPageRoute(
+              builder: (context) {
+                return page;
+              },
+            ),
+          );
+        },
+        onPopCallback: (context) async {
+          if (context.mounted) {
+            Navigator.of(context).pop();
+          }
+        },
         feedbackService: MockFeedbackService(),
         remoteConfigRepo: MockConfigsService(),
         doYouLoveUsDialogBuilder: (context, onLike, onDislike, onRemindLater) =>

@@ -204,3 +204,22 @@ SimpleDialog makeInformDialog({
     ],
   );
 }
+
+Future<void> defaultPopCallback(BuildContext context) async {
+  if (context.mounted) {
+    Navigator.of(context).pop();
+  }
+}
+
+Future<void> defaultWriteFeedbackCallback(
+  BuildContext context,
+  Widget writeFeedbackPage,
+) async {
+  await Navigator.of(context).push<void>(
+    MaterialPageRoute(
+      builder: (context) {
+        return writeFeedbackPage;
+      },
+    ),
+  );
+}

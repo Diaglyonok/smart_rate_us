@@ -46,6 +46,11 @@ void main() {
         home: RepositoryProvider.value(
           value: feedbackRepository,
           child: WriteFeedbackScreen(
+            onPopCallback: (context) async {
+              if (context.mounted) {
+                Navigator.of(context).pop();
+              }
+            },
             builder:
                 builder ??
                 (context, isLoading, onSend) {
@@ -89,6 +94,11 @@ void main() {
           home: RepositoryProvider.value(
             value: feedbackRepository,
             child: WriteFeedbackScreen(
+              onPopCallback: (context) async {
+                if (context.mounted) {
+                  Navigator.of(context).pop();
+                }
+              },
               builder: (context, isLoading, onSend) {
                 receivedLoadingState = isLoading;
                 return Text(isLoading ? 'Loading' : 'Ready');
@@ -113,6 +123,11 @@ void main() {
           home: RepositoryProvider.value(
             value: feedbackRepository,
             child: WriteFeedbackScreen(
+              onPopCallback: (context) async {
+                if (context.mounted) {
+                  Navigator.of(context).pop();
+                }
+              },
               builder: (context, isLoading, onSend) {
                 return ElevatedButton(
                   onPressed: () {
@@ -171,6 +186,11 @@ void main() {
           home: RepositoryProvider.value(
             value: feedbackRepository,
             child: WriteFeedbackScreen(
+              onPopCallback: (context) async {
+                if (context.mounted) {
+                  Navigator.of(context).pop();
+                }
+              },
               builder: (context, isLoading, onSend) {
                 isLoadingParam = isLoading;
                 return ElevatedButton(
