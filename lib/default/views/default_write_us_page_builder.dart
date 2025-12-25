@@ -58,12 +58,10 @@ class DefaultWriteFeedbackScreen extends StatefulWidget {
   });
 
   @override
-  State<DefaultWriteFeedbackScreen> createState() =>
-      _DefaultWriteFeedbackScreenState();
+  State<DefaultWriteFeedbackScreen> createState() => _DefaultWriteFeedbackScreenState();
 }
 
-class _DefaultWriteFeedbackScreenState
-    extends State<DefaultWriteFeedbackScreen> {
+class _DefaultWriteFeedbackScreenState extends State<DefaultWriteFeedbackScreen> {
   late TextEditingController emailController;
   final TextEditingController controller = TextEditingController();
   final FocusNode feedbackFocusNode = FocusNode();
@@ -94,9 +92,7 @@ class _DefaultWriteFeedbackScreenState
         appBar: AppBar(
           title: Text(
             widget.config.howBecomeBetterText,
-            style: Theme.of(
-              context,
-            ).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.bold),
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.bold),
           ),
         ),
         body: Builder(
@@ -113,8 +109,9 @@ class _DefaultWriteFeedbackScreenState
                       children: [
                         Text(
                           '${widget.config.emailText} (${widget.config.emailForResposeDescriptionText}):',
-                          style: Theme.of(context).textTheme.bodyMedium!
-                              .copyWith(color: theme.colorScheme.onSurface),
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodyMedium!.copyWith(color: theme.colorScheme.onSurface),
                         ),
                         TextField(
                           selectionControls: getControls(context),
@@ -124,15 +121,12 @@ class _DefaultWriteFeedbackScreenState
                             feedbackFocusNode.requestFocus();
                           },
                           textInputAction: TextInputAction.next,
-                          style: Theme.of(context).textTheme.bodyMedium!
-                              .copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: theme.colorScheme.onSurface.withValues(
-                                  alpha: 1,
-                                ),
-                              ),
+                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: theme.colorScheme.onSurface.withValues(alpha: 1),
+                          ),
                           keyboardType: TextInputType.text,
-                          cursorColor: Theme.of(context).colorScheme.secondary,
+                          cursorColor: Theme.of(context).colorScheme.primary,
                           cursorWidth: 1.0,
                           textCapitalization: TextCapitalization.none,
                           decoration: defaultDecoration(context),
@@ -140,8 +134,9 @@ class _DefaultWriteFeedbackScreenState
                         const SizedBox(height: 28),
                         Text(
                           widget.config.pleaseDescribeIssuesText,
-                          style: Theme.of(context).textTheme.bodyMedium!
-                              .copyWith(color: theme.colorScheme.onSurface),
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodyMedium!.copyWith(color: theme.colorScheme.onSurface),
                         ),
                         TextField(
                           selectionControls: getControls(context),
@@ -151,13 +146,12 @@ class _DefaultWriteFeedbackScreenState
                           focusNode: feedbackFocusNode,
                           onSubmitted: (value) => _send(context),
                           textInputAction: TextInputAction.send,
-                          style: Theme.of(context).textTheme.bodyMedium!
-                              .copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: theme.colorScheme.onSurface,
-                              ),
+                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: theme.colorScheme.onSurface,
+                          ),
                           keyboardType: TextInputType.text,
-                          cursorColor: Theme.of(context).colorScheme.secondary,
+                          cursorColor: Theme.of(context).colorScheme.primary,
                           cursorWidth: 1.0,
                           textCapitalization: TextCapitalization.sentences,
                           decoration: defaultDecoration(context),
@@ -185,15 +179,13 @@ class _DefaultWriteFeedbackScreenState
 
   void _send(BuildContext context) {
     if (controller.text == '') {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(widget.config.writeYourFeedbackHereText)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(widget.config.writeYourFeedbackHereText)));
       return;
     }
 
-    final String? email = emailController.text == ''
-        ? widget.userEmail
-        : emailController.text;
+    final String? email = emailController.text == '' ? widget.userEmail : emailController.text;
 
     if ((email ?? '').isEmpty) {
       ScaffoldMessenger.of(

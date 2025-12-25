@@ -90,7 +90,7 @@ class DefaultButtonView extends StatelessWidget {
       return Theme.of(context).colorScheme.onSecondary;
     }
 
-    return Theme.of(context).colorScheme.secondary;
+    return Theme.of(context).colorScheme.primary;
   }
 
   Color? backgroundColor(BuildContext context) {
@@ -103,7 +103,7 @@ class DefaultButtonView extends StatelessWidget {
     }
 
     if (type == ButtonType.border) {
-      return Theme.of(context).colorScheme.secondary.withValues(alpha: 0.05);
+      return Theme.of(context).colorScheme.primary.withValues(alpha: 0.05);
     }
 
     if (type == ButtonType.secondary) {
@@ -111,7 +111,7 @@ class DefaultButtonView extends StatelessWidget {
         return Theme.of(context).colorScheme.error.withValues(alpha: 0.1);
       }
 
-      return Theme.of(context).colorScheme.secondary.withValues(alpha: 0.1);
+      return Theme.of(context).colorScheme.primary.withValues(alpha: 0.1);
     }
 
     return null;
@@ -119,17 +119,14 @@ class DefaultButtonView extends StatelessWidget {
 
   TextStyle textStyle(BuildContext context) {
     return type == ButtonType.normal
-        ? Theme.of(
-            context,
-          ).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold)
+        ? Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold)
         : Theme.of(context).textTheme.bodyMedium!;
   }
 
   BoxBorder? getBorder(BuildContext context) {
     return type == ButtonType.border
         ? Border.all(
-            color: (borderColor ?? Theme.of(context).colorScheme.secondary)
-                .withValues(alpha: 1),
+            color: (borderColor ?? Theme.of(context).colorScheme.primary).withValues(alpha: 1),
             width: borderWidth ?? 0.4,
           )
         : null;
@@ -177,17 +174,16 @@ class _SimpleButton extends StatelessWidget {
     this.border,
   });
 
-  Color getColor(BuildContext context) =>
-      backgroundColor ?? Theme.of(context).colorScheme.secondary;
+  Color getColor(BuildContext context) => backgroundColor ?? Theme.of(context).colorScheme.primary;
 
   @override
   Widget build(BuildContext context) {
     bool isDisabled = callback == null;
     final style =
         (textStyle ??
-        Theme.of(context).textTheme.labelLarge!.copyWith(
-          color: Theme.of(context).colorScheme.onSecondary,
-        ));
+        Theme.of(
+          context,
+        ).textTheme.labelLarge!.copyWith(color: Theme.of(context).colorScheme.onSecondary));
     return InkWell(
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 256),
@@ -195,10 +191,7 @@ class _SimpleButton extends StatelessWidget {
           height: 48,
           decoration: BoxDecoration(
             color: isDisabled
-                ? Color.alphaBlend(
-                    Colors.white.withValues(alpha: 0.5),
-                    getColor(context),
-                  )
+                ? Color.alphaBlend(Colors.white.withValues(alpha: 0.5), getColor(context))
                 : getColor(context),
 
             borderRadius: BorderRadius.circular(borderRadius),
@@ -212,12 +205,7 @@ class _SimpleButton extends StatelessWidget {
               child: Center(
                 child:
                     child ??
-                    Text(
-                      title,
-                      semanticsLabel: title,
-                      style: style,
-                      textAlign: TextAlign.center,
-                    ),
+                    Text(title, semanticsLabel: title, style: style, textAlign: TextAlign.center),
               ),
             ),
           ),

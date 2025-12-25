@@ -8,8 +8,7 @@ class DefaultStarsView extends StatefulWidget {
   State<DefaultStarsView> createState() => _DefaultStarsViewState();
 }
 
-class _DefaultStarsViewState extends State<DefaultStarsView>
-    with TickerProviderStateMixin {
+class _DefaultStarsViewState extends State<DefaultStarsView> with TickerProviderStateMixin {
   static const Cubic easeInOutCircZoom = Cubic(.08, .43, .67, 1.8);
   static const Cubic easeInOutCircRotate = Cubic(.08, .43, .67, 2.8);
 
@@ -37,10 +36,7 @@ class _DefaultStarsViewState extends State<DefaultStarsView>
   void _initializeAnimations() {
     _fadeControllers = List.generate(
       starCount,
-      (index) => AnimationController(
-        duration: const Duration(milliseconds: 400),
-        vsync: this,
-      ),
+      (index) => AnimationController(duration: const Duration(milliseconds: 400), vsync: this),
     );
 
     _scaleControllers = List.generate(
@@ -64,17 +60,19 @@ class _DefaultStarsViewState extends State<DefaultStarsView>
 
     _scaleAnimations = _scaleControllers
         .map(
-          (controller) => Tween<double>(begin: 0.5, end: 1.0).animate(
-            CurvedAnimation(parent: controller, curve: easeInOutCircZoom),
-          ),
+          (controller) => Tween<double>(
+            begin: 0.5,
+            end: 1.0,
+          ).animate(CurvedAnimation(parent: controller, curve: easeInOutCircZoom)),
         )
         .toList();
 
     _rotationAnimations = _rotationControllers
         .map(
-          (controller) => Tween<double>(begin: -0.254533, end: 0.0).animate(
-            CurvedAnimation(parent: controller, curve: easeInOutCircRotate),
-          ),
+          (controller) => Tween<double>(
+            begin: -0.254533,
+            end: 0.0,
+          ).animate(CurvedAnimation(parent: controller, curve: easeInOutCircRotate)),
         )
         .toList();
   }
@@ -83,16 +81,13 @@ class _DefaultStarsViewState extends State<DefaultStarsView>
     for (int i = 0; i < starCount; i++) {
       if (_disposed) break;
 
-      Future.delayed(
-        Duration(milliseconds: staggerDelay.inMilliseconds * i),
-        () {
-          if (!_disposed && mounted) {
-            _fadeControllers[i].forward();
-            _scaleControllers[i].forward();
-            _rotationControllers[i].forward();
-          }
-        },
-      );
+      Future.delayed(Duration(milliseconds: staggerDelay.inMilliseconds * i), () {
+        if (!_disposed && mounted) {
+          _fadeControllers[i].forward();
+          _scaleControllers[i].forward();
+          _rotationControllers[i].forward();
+        }
+      });
     }
   }
 
@@ -139,7 +134,7 @@ class _DefaultStarsViewState extends State<DefaultStarsView>
                             Icon(
                               Icons.star_rounded,
                               size: 48,
-                              color: Theme.of(context).colorScheme.secondary,
+                              color: Theme.of(context).colorScheme.primary,
                             ),
                       ),
                     ),

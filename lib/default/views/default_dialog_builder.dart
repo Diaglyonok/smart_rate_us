@@ -21,20 +21,13 @@ Widget buildDefaultDialogWidget(
     onDislike: onDislike,
     onRemindLater: onRemindLater,
     starsBuilder: (BuildContext context) {
-      return Icon(
-        Icons.star_rounded,
-        size: 48,
-        color: Theme.of(context).colorScheme.secondary,
-      );
+      return Icon(Icons.star_rounded, size: 48, color: Theme.of(context).colorScheme.primary);
     },
   );
 }
 
 Future<void> defaultOpenDialogCallback(BuildContext context) async {
-  await showDialog(
-    context: context,
-    builder: (context) => buildDefaultSuccessDialogView(),
-  );
+  await showDialog(context: context, builder: (context) => buildDefaultSuccessDialogView());
 
   if (context.mounted) {
     Navigator.of(context).pop();
@@ -73,8 +66,7 @@ class DoYouLoveUsDefaultDialog extends StatefulWidget {
   });
 
   @override
-  State<DoYouLoveUsDefaultDialog> createState() =>
-      _DoYouLoveUsDefaultDialogState();
+  State<DoYouLoveUsDefaultDialog> createState() => _DoYouLoveUsDefaultDialogState();
 }
 
 class _DoYouLoveUsDefaultDialogState extends State<DoYouLoveUsDefaultDialog> {
@@ -91,15 +83,12 @@ class _DoYouLoveUsDefaultDialogState extends State<DoYouLoveUsDefaultDialog> {
             Text(
               widget.textConfig.title,
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.titleLarge?.copyWith(color: Theme.of(context).colorScheme.onSurface),
             ),
             const SizedBox(height: 12),
-            SizedBox(
-              width: 220,
-              child: DefaultStarsView(starBuilder: widget.starsBuilder),
-            ),
+            SizedBox(width: 220, child: DefaultStarsView(starBuilder: widget.starsBuilder)),
             const SizedBox(height: 20),
             Row(
               children: [
@@ -111,7 +100,8 @@ class _DoYouLoveUsDefaultDialogState extends State<DoYouLoveUsDefaultDialog> {
                       widget.textConfig.itCouldBeBetterText,
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Theme.of(context).colorScheme.onSurface,
+                        color: Theme.of(context).colorScheme.primary,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
@@ -128,9 +118,7 @@ class _DoYouLoveUsDefaultDialogState extends State<DoYouLoveUsDefaultDialog> {
             ),
             const SizedBox(height: 12),
             DefaultButtonView.transparent(
-              customTextColor: Theme.of(
-                context,
-              ).colorScheme.onSurface.withValues(alpha: 0.6),
+              customTextColor: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
               callback: widget.onRemindLater,
               title: widget.textConfig.remindLaterText,
             ),
@@ -165,9 +153,9 @@ SimpleDialog makeInformDialog({
       Text(
         title,
         textAlign: TextAlign.center,
-        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-          color: Theme.of(context).colorScheme.onSurface,
-        ),
+        style: Theme.of(
+          context,
+        ).textTheme.titleLarge?.copyWith(color: Theme.of(context).colorScheme.onSurface),
         overflow: title.length > 400 ? TextOverflow.ellipsis : null,
         maxLines: title.length > 400 ? 4 : null,
       ),
@@ -179,24 +167,19 @@ SimpleDialog makeInformDialog({
           child: Text(
             subtitle2,
             textAlign: subtitleCentered ? TextAlign.center : TextAlign.start,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Theme.of(context).colorScheme.onSurface,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.onSurface),
           ),
         ),
         const SizedBox(height: 24.0),
       ],
       if (child != null)
-        Padding(
-          padding: const EdgeInsets.only(bottom: 24, right: 16, left: 16.0),
-          child: child,
-        ),
+        Padding(padding: const EdgeInsets.only(bottom: 24, right: 16, left: 16.0), child: child),
       DefaultButtonView(
         borderRadius: 8.0,
         title: buttonTitle ?? 'OK',
-        customBackgroundColor: negative
-            ? Theme.of(context).colorScheme.error
-            : null,
+        customBackgroundColor: negative ? Theme.of(context).colorScheme.error : null,
         callback: () {
           Navigator.of(context).pop();
         },
@@ -211,10 +194,7 @@ Future<void> defaultPopCallback(BuildContext context) async {
   }
 }
 
-Future<void> defaultWriteFeedbackCallback(
-  BuildContext context,
-  Widget writeFeedbackPage,
-) async {
+Future<void> defaultWriteFeedbackCallback(BuildContext context, Widget writeFeedbackPage) async {
   await Navigator.of(context).push<void>(
     MaterialPageRoute(
       builder: (context) {
