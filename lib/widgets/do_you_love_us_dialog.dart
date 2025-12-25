@@ -68,6 +68,7 @@ class DoYouLoveUsDialog extends StatefulWidget {
     required this.onWriteFeedbackCallback,
     this.dialogBuilder,
     this.feedbackUpdateCubit,
+    this.userEmail,
   });
 
   /// Builder function for creating the rating dialog UI.
@@ -94,6 +95,9 @@ class DoYouLoveUsDialog extends StatefulWidget {
   /// Receives the context and the pre-built feedback page widget.
   final Future<void> Function(BuildContext context, Widget writeFeedbackPage)
   onWriteFeedbackCallback;
+
+  /// Optional user email to be used for feedback submission.
+  final String? userEmail;
 
   @override
   State<DoYouLoveUsDialog> createState() => _DoYouLoveUsDialogState();
@@ -124,6 +128,7 @@ class _DoYouLoveUsDialogState extends State<DoYouLoveUsDialog> {
               onPopCallback: widget.onPopCallback,
               builder: widget.writeFeedbackPageBuilder,
               onFinalSuccessCallback: widget.onFinalSuccessCallback,
+              userEmail: widget.userEmail,
             ),
           ),
         );

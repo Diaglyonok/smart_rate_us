@@ -81,3 +81,7 @@ Updated umbrella smart_rate_us.dart file
 
 Updated colors:
   default widgets now use primary color instead of secondary
+
+## 1.1.3
+
+Added colors and InputDecoration customizations

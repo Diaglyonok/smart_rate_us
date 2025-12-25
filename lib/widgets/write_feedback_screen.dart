@@ -17,6 +17,7 @@ typedef WriteFeedbackPageBuilder =
       BuildContext context,
       bool isLoading,
       void Function(Map<String, dynamic> feedback) onSend,
+      String? userEmail,
     );
 
 /// Screen widget for collecting user feedback.
@@ -58,6 +59,7 @@ class WriteFeedbackScreen extends StatefulWidget {
     required this.builder,
     required this.onFinalSuccessCallback,
     required this.onPopCallback,
+    this.userEmail,
   });
 
   /// Builder function for creating the feedback collection UI.
@@ -77,6 +79,9 @@ class WriteFeedbackScreen extends StatefulWidget {
   /// Used for closing the feedback screen after successful submission.
   final Future<void> Function(BuildContext context) onPopCallback;
 
+  /// Optional user email to be used for feedback submission.
+  final String? userEmail;
+
   @override
   State<WriteFeedbackScreen> createState() => _WriteFeedbackScreenState();
 }
@@ -87,9 +92,7 @@ class _WriteFeedbackScreenState extends State<WriteFeedbackScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _feedbackUpdateCubit ??= FeedbackUpdateCubit(
-      repository: context.read<FeedbackRepository>(),
-    );
+    _feedbackUpdateCubit ??= FeedbackUpdateCubit(repository: context.read<FeedbackRepository>());
   }
 
   @override
@@ -105,22 +108,18 @@ class _WriteFeedbackScreenState extends State<WriteFeedbackScreen> {
       listener: (context, state) async {
         if (state is UpdateSucceededState) {
           void defaultFinalCallback() {
-            if (context.mounted &&
-                (ModalRoute.of(context)?.isCurrent ?? false)) {
+            if (context.mounted && (ModalRoute.of(context)?.isCurrent ?? false)) {
               widget.onPopCallback.call(context);
             }
           }
 
-          widget.onFinalSuccessCallback?.call(context) ??
-              defaultFinalCallback();
+          widget.onFinalSuccessCallback?.call(context) ?? defaultFinalCallback();
         }
       },
       builder: (context, state) {
-        return widget.builder(context, state is UpdateInProgressState, (
-          feedback,
-        ) {
+        return widget.builder(context, state is UpdateInProgressState, (feedback) {
           _feedbackUpdateCubit?.sendFeedback(feedback);
-        });
+        }, widget.userEmail);
       },
     );
   }

@@ -6,11 +6,12 @@ Widget buildDefaultWriteUsPageWidget(
   BuildContext context,
   bool isLoading,
   void Function(Map<String, dynamic> feedback) onSend,
+  String? userEmail,
 ) {
   return DefaultWriteFeedbackScreen(
     isButtonLoading: isLoading,
     onSend: onSend,
-    userEmail: 'user@example.com',
+    userEmail: userEmail,
     config: DefaultWriteFeedbackConfig(
       howBecomeBetterText: 'How can we become better?',
       pleaseDescribeIssuesText: 'Please describe the issues',
@@ -32,6 +33,9 @@ class DefaultWriteFeedbackConfig {
   final String writeYourEmailText;
   final String sendFeedbackText;
 
+  final Color? primaryColor;
+  final InputDecoration? inputDecoration;
+
   const DefaultWriteFeedbackConfig({
     required this.howBecomeBetterText,
     required this.pleaseDescribeIssuesText,
@@ -40,6 +44,8 @@ class DefaultWriteFeedbackConfig {
     required this.writeYourFeedbackHereText,
     required this.writeYourEmailText,
     required this.sendFeedbackText,
+    this.primaryColor,
+    this.inputDecoration,
   });
 }
 
@@ -107,12 +113,16 @@ class _DefaultWriteFeedbackScreenState extends State<DefaultWriteFeedbackScreen>
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          '${widget.config.emailText} (${widget.config.emailForResposeDescriptionText}):',
-                          style: Theme.of(
-                            context,
-                          ).textTheme.bodyMedium!.copyWith(color: theme.colorScheme.onSurface),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: Text(
+                            '${widget.config.emailText} (${widget.config.emailForResposeDescriptionText}):',
+                            style: Theme.of(
+                              context,
+                            ).textTheme.bodyMedium!.copyWith(color: theme.colorScheme.onSurface),
+                          ),
                         ),
+                        SizedBox(height: 4),
                         TextField(
                           selectionControls: getControls(context),
                           controller: emailController,
@@ -126,18 +136,23 @@ class _DefaultWriteFeedbackScreenState extends State<DefaultWriteFeedbackScreen>
                             color: theme.colorScheme.onSurface.withValues(alpha: 1),
                           ),
                           keyboardType: TextInputType.text,
-                          cursorColor: Theme.of(context).colorScheme.primary,
+                          cursorColor:
+                              widget.config.primaryColor ?? Theme.of(context).colorScheme.primary,
                           cursorWidth: 1.0,
                           textCapitalization: TextCapitalization.none,
-                          decoration: defaultDecoration(context),
+                          decoration: widget.config.inputDecoration ?? defaultDecoration(context),
                         ),
                         const SizedBox(height: 28),
-                        Text(
-                          widget.config.pleaseDescribeIssuesText,
-                          style: Theme.of(
-                            context,
-                          ).textTheme.bodyMedium!.copyWith(color: theme.colorScheme.onSurface),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: Text(
+                            widget.config.pleaseDescribeIssuesText,
+                            style: Theme.of(
+                              context,
+                            ).textTheme.bodyMedium!.copyWith(color: theme.colorScheme.onSurface),
+                          ),
                         ),
+                        SizedBox(height: 4),
                         TextField(
                           selectionControls: getControls(context),
                           controller: controller,
@@ -151,10 +166,11 @@ class _DefaultWriteFeedbackScreenState extends State<DefaultWriteFeedbackScreen>
                             color: theme.colorScheme.onSurface,
                           ),
                           keyboardType: TextInputType.text,
-                          cursorColor: Theme.of(context).colorScheme.primary,
+                          cursorColor:
+                              widget.config.primaryColor ?? Theme.of(context).colorScheme.primary,
                           cursorWidth: 1.0,
                           textCapitalization: TextCapitalization.sentences,
-                          decoration: defaultDecoration(context),
+                          decoration: widget.config.inputDecoration ?? defaultDecoration(context),
                         ),
                       ],
                     ),
@@ -167,6 +183,7 @@ class _DefaultWriteFeedbackScreenState extends State<DefaultWriteFeedbackScreen>
                     title: widget.config.sendFeedbackText,
                     isLoading: widget.isButtonLoading,
                     callback: () => _send(context),
+                    customBackgroundColor: widget.config.primaryColor,
                   ),
                 ),
               ],

@@ -56,6 +56,8 @@ class DoYouLoveUsDefaultDialog extends StatefulWidget {
   final VoidCallback onDislike;
   final VoidCallback onRemindLater;
 
+  final Color? primaryColor;
+
   const DoYouLoveUsDefaultDialog({
     super.key,
     required this.textConfig,
@@ -63,6 +65,7 @@ class DoYouLoveUsDefaultDialog extends StatefulWidget {
     required this.onDislike,
     required this.onRemindLater,
     required this.starsBuilder,
+    this.primaryColor,
   });
 
   @override
@@ -96,11 +99,12 @@ class _DoYouLoveUsDefaultDialogState extends State<DoYouLoveUsDefaultDialog> {
                   child: DefaultButtonView.secondary(
                     borderRadius: 8,
                     callback: widget.onDislike,
+                    customBackgroundColor: widget.primaryColor?.withValues(alpha: 0.1),
                     customChild: Text(
                       widget.textConfig.itCouldBeBetterText,
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Theme.of(context).colorScheme.primary,
+                        color: widget.primaryColor ?? Theme.of(context).colorScheme.primary,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -112,6 +116,7 @@ class _DoYouLoveUsDefaultDialogState extends State<DoYouLoveUsDefaultDialog> {
                     borderRadius: 8,
                     title: widget.textConfig.iLikeItText,
                     callback: widget.onLike,
+                    customBackgroundColor: widget.primaryColor,
                   ),
                 ),
               ],

@@ -59,7 +59,7 @@ void main() {
         remoteConfigRepo: MockConfigsService(),
         doYouLoveUsDialogBuilder: (context, onLike, onDislike, onRemindLater) =>
             Container(),
-        writeFeedbackPageBuilder: (context, isLoading, onSend) => Container(),
+        writeFeedbackPageBuilder: (context, isLoading, onSend, userEmail) => Container(),
         onFinalSuccessCallback: (context) async {},
       );
 
@@ -108,7 +108,7 @@ void main() {
         remoteConfigRepo: MockConfigsService(),
         doYouLoveUsDialogBuilder: (context, onLike, onDislike, onRemindLater) =>
             Container(),
-        writeFeedbackPageBuilder: (context, isLoading, onSend) => Container(),
+        writeFeedbackPageBuilder: (context, isLoading, onSend, userEmail) => Container(),
         onFinalSuccessCallback: (context) async {},
       );
       createdRepository = null;

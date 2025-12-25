@@ -53,7 +53,7 @@ void main() {
             },
             builder:
                 builder ??
-                (context, isLoading, onSend) {
+                (context, isLoading, onSend, userEmail) {
                   return Column(
                     children: [
                       Text(isLoading ? 'Loading...' : 'Ready'),
@@ -99,7 +99,7 @@ void main() {
                   Navigator.of(context).pop();
                 }
               },
-              builder: (context, isLoading, onSend) {
+              builder: (context, isLoading, onSend, userEmail) {
                 receivedLoadingState = isLoading;
                 return Text(isLoading ? 'Loading' : 'Ready');
               },
@@ -128,7 +128,7 @@ void main() {
                   Navigator.of(context).pop();
                 }
               },
-              builder: (context, isLoading, onSend) {
+              builder: (context, isLoading, onSend, userEmail) {
                 return ElevatedButton(
                   onPressed: () {
                     sentFeedback = {'test': 'data'};
@@ -191,7 +191,7 @@ void main() {
                   Navigator.of(context).pop();
                 }
               },
-              builder: (context, isLoading, onSend) {
+              builder: (context, isLoading, onSend, userEmail) {
                 isLoadingParam = isLoading;
                 return ElevatedButton(
                   onPressed: () {

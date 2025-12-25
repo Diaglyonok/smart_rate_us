@@ -92,7 +92,7 @@ void main() {
                 },
             writeFeedbackPageBuilder:
                 writeFeedbackBuilder ??
-                (context, isLoading, onSend) {
+                (context, isLoading, onSend, userEmail) {
                   return Column(
                     children: [
                       Text(isLoading ? 'Sending...' : 'Write Feedback'),
@@ -204,7 +204,7 @@ void main() {
     ) async {
       await tester.pumpWidget(
         createDialog(
-          writeFeedbackBuilder: (context, isLoading, onSend) {
+          writeFeedbackBuilder: (context, isLoading, onSend, userEmail) {
             return const Text('Custom Feedback Page');
           },
         ),
