@@ -84,7 +84,7 @@ class FeedbackWrapperConfig {
   /// - Uses DefaultFeedbackConfigsRepository for remote configs
   /// - Uses buildDefaultDialogWidget for dialog UI
   /// - Uses buildDefaultWriteUsPageWidget for feedback page UI
-  /// - Uses defaultOpenDialogCallback for success handling
+  /// - Uses FeedbackWrapperConfig.defaultFinalSuccessDialogCallback for success handling
   /// - Uses defaultPopCallback for navigation back (Navigator.pop)
   /// - Uses defaultWriteFeedbackCallback for feedback navigation (Navigator.push)
   FeedbackWrapperConfig.defaultConfig({required this.feedbackService})

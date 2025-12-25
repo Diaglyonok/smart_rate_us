@@ -93,3 +93,7 @@ Fixed colors for success dialog
 ## 1.1.5
 
 Fixed unused imports
+
+## 1.1.6
+
+Updated README.md

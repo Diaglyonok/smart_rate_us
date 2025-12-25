@@ -62,7 +62,7 @@ Check the implementation of:
 - `DefaultFeedbackConfigsRepository`
 - `buildDefaultDialogWidget`
 - `buildDefaultWriteUsPageWidget`
-- `defaultOpenDialogCallback`
+- `FeedbackWrapperConfig.defaultFinalSuccessDialogCallback`
 - `FeedbackWrapperConfig.defaultConfig`
 
 for examples.
