@@ -1,6 +1,15 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:smart_rate_us/default/views/default_button_view.dart';
 import 'package:smart_rate_us/default/views/default_decoration.dart';
+
+/// Intent for submitting text field content with keyboard shortcut
+class SubmitIntent extends Intent {
+  const SubmitIntent();
+}
 
 Widget buildDefaultWriteUsPageWidget(
   BuildContext context,
@@ -153,24 +162,61 @@ class _DefaultWriteFeedbackScreenState extends State<DefaultWriteFeedbackScreen>
                           ),
                         ),
                         SizedBox(height: 4),
-                        TextField(
-                          selectionControls: getControls(context),
-                          controller: controller,
-                          maxLines: null,
-                          autofocus: true,
-                          focusNode: feedbackFocusNode,
-                          onSubmitted: (value) => _send(context),
-                          textInputAction: TextInputAction.send,
-                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: theme.colorScheme.onSurface,
+                        Shortcuts(
+                          shortcuts:
+                              (!kIsWeb &&
+                                  (Platform.isMacOS || Platform.isWindows || Platform.isLinux))
+                              ? {
+                                  // Cmd+Enter on macOS, Ctrl+Enter on Windows/Linux
+                                  LogicalKeySet(
+                                    Platform.isMacOS
+                                        ? LogicalKeyboardKey.meta
+                                        : LogicalKeyboardKey.control,
+                                    LogicalKeyboardKey.enter,
+                                  ): const SubmitIntent(),
+                                }
+                              : {},
+                          child: Actions(
+                            actions: {
+                              SubmitIntent: CallbackAction<SubmitIntent>(
+                                onInvoke: (intent) => _send(context),
+                              ),
+                            },
+                            child: TextField(
+                              selectionControls: getControls(context),
+                              controller: controller,
+                              maxLines: null,
+                              autofocus: true,
+                              focusNode: feedbackFocusNode,
+                              onSubmitted:
+                                  (!kIsWeb &&
+                                      (Platform.isMacOS || Platform.isWindows || Platform.isLinux))
+                                  ? null // Desktop platforms: disable Enter submission
+                                  : (value) => _send(context), // Mobile/web: keep Enter submission
+                              textInputAction:
+                                  (!kIsWeb &&
+                                      (Platform.isMacOS || Platform.isWindows || Platform.isLinux))
+                                  ? TextInputAction.newline
+                                  : TextInputAction.send,
+                              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: theme.colorScheme.onSurface,
+                              ),
+                              keyboardType:
+                                  (!kIsWeb &&
+                                      (Platform.isMacOS || Platform.isWindows || Platform.isLinux))
+                                  ? TextInputType
+                                        .multiline // Desktop: multiline for newline support
+                                  : TextInputType.text, // Mobile/web: regular text
+                              cursorColor:
+                                  widget.config.primaryColor ??
+                                  Theme.of(context).colorScheme.primary,
+                              cursorWidth: 1.0,
+                              textCapitalization: TextCapitalization.sentences,
+                              decoration:
+                                  widget.config.inputDecoration ?? defaultDecoration(context),
+                            ),
                           ),
-                          keyboardType: TextInputType.text,
-                          cursorColor:
-                              widget.config.primaryColor ?? Theme.of(context).colorScheme.primary,
-                          cursorWidth: 1.0,
-                          textCapitalization: TextCapitalization.sentences,
-                          decoration: widget.config.inputDecoration ?? defaultDecoration(context),
                         ),
                       ],
                     ),

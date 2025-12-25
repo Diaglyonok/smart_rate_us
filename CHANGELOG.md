@@ -97,3 +97,17 @@ Fixed unused imports
 ## 1.1.6
 
 Updated README.md
+
+## 1.1.7
+
+### New Features
+* **Smart keyboard handling**: Better platform-specific keyboard behavior for feedback text field
+  - Mobile/Web: Enter key sends feedback (as before)
+  - Desktop (macOS/Windows/Linux): Enter creates new line, Cmd+Enter (or Ctrl+Enter) sends feedback
+* **User email support**: Added optional user email parameter to feedback flow
+  - Added `getUserEmail` callback to `FeedbackWrapper`
+  - Email automatically passed through feedback screens
+
+### Improvements
+* Updated test signatures to match new API
+* Better platform detection for keyboard shortcuts
