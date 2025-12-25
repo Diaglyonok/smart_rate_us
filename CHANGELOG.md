@@ -34,6 +34,9 @@
 
 See README.md for detailed implementation guide and examples.
 
+## 1.0.1
+
+Updated Readme.md
 
 ## 1.1.0
 
@@ -69,6 +72,7 @@ See README.md for detailed implementation guide and examples.
 * All existing tests continue to pass
 * Added proper callback handling in test scenarios
 
-## 1.0.1
+## 1.1.1
 
-Updated Readme.md
+Updated changelog
+Updated umbrella smart_rate_us.dart file

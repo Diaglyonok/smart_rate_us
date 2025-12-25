@@ -48,9 +48,7 @@ class FeedbackRepository with Reactor<ListenersType, FeedbackRepoResponse> {
     await Future.delayed(const Duration(seconds: 1), () {});
     try {
       final mapConfig = await _remoteConfigRepo.getConfigs();
-      final config = mapConfig == null
-          ? null
-          : FeedbackConfig.fromJson(mapConfig);
+      final config = mapConfig == null ? null : FeedbackConfig.fromJson(mapConfig);
 
       if (config == null) {
         throw Exception('configs null');
@@ -149,7 +147,7 @@ class FeedbackRepository with Reactor<ListenersType, FeedbackRepoResponse> {
     provideDataToListeners(FeedbackRepoLoadResponse());
   }
 
-  resetCounters() async {
+  Future<void> resetCounters() async {
     final prefs = await SharedPreferences.getInstance();
     final currentCounters = _loadCounters(prefs);
 
@@ -172,23 +170,13 @@ class FeedbackRepository with Reactor<ListenersType, FeedbackRepoResponse> {
 
     await _saveCounters(
       prefs,
-      currentCounters.copyWith(
-        feedbackDelayDateMillis: now.millisecondsSinceEpoch,
-      ),
+      currentCounters.copyWith(feedbackDelayDateMillis: now.millisecondsSinceEpoch),
     );
-    onDebugPrint?.call(
-      'feedback delayed for $DEFAULT_DELAY_DAYS days (default, could be changed)',
-    );
+    onDebugPrint?.call('feedback delayed for $DEFAULT_DELAY_DAYS days (default, could be changed)');
   }
 
-  Future<bool> _saveCounters(
-    SharedPreferences prefs,
-    CurrentFeedbackCounters counters,
-  ) async {
-    return prefs.setString(
-      SHARED_PREFS_FEEDBACK_KEY,
-      jsonEncode(counters.toJson()),
-    );
+  Future<bool> _saveCounters(SharedPreferences prefs, CurrentFeedbackCounters counters) async {
+    return prefs.setString(SHARED_PREFS_FEEDBACK_KEY, jsonEncode(counters.toJson()));
   }
 
   CurrentFeedbackCounters _loadCounters(SharedPreferences prefs) {
@@ -197,8 +185,7 @@ class FeedbackRepository with Reactor<ListenersType, FeedbackRepoResponse> {
     // current counters map is storred in preferences, could be moved to any other storage if needed.
     try {
       currentCounters = CurrentFeedbackCounters.fromJson(
-        jsonDecode(prefs.getString(SHARED_PREFS_FEEDBACK_KEY)!)
-            as Map<String, dynamic>,
+        jsonDecode(prefs.getString(SHARED_PREFS_FEEDBACK_KEY)!) as Map<String, dynamic>,
       );
     } catch (e) {
       //couldn't parse, nothing to do
@@ -222,9 +209,7 @@ class FeedbackRepository with Reactor<ListenersType, FeedbackRepoResponse> {
 
     //return false if screen needs to be shown,
     //return true when screen doesn't need to be shown.
-    return DateTime.now()
-            .difference(DateTime.fromMillisecondsSinceEpoch(delayedDate))
-            .inDays <
+    return DateTime.now().difference(DateTime.fromMillisecondsSinceEpoch(delayedDate)).inDays <
         diff;
   }
 

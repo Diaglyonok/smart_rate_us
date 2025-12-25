@@ -51,13 +51,10 @@
 library;
 
 // Core functionality - Main widgets for implementing feedback flow
-export 'widgets/feedback_wrapper.dart'
-    show FeedbackWrapper, FeedbackWrapperConfig;
+export 'widgets/feedback_wrapper.dart' show FeedbackWrapper, FeedbackWrapperConfig;
 export 'widgets/feedaback_repo_provider.dart' show FeedbackRepoProvider;
-export 'widgets/do_you_love_us_dialog.dart'
-    show DoYouLoveUsDialog, DialogBuilder;
-export 'widgets/write_feedback_screen.dart'
-    show WriteFeedbackScreen, WriteFeedbackPageBuilder;
+export 'widgets/do_you_love_us_dialog.dart' show DoYouLoveUsDialog, DialogBuilder;
+export 'widgets/write_feedback_screen.dart' show WriteFeedbackScreen, WriteFeedbackPageBuilder;
 
 // Data and logic - Core interfaces and business logic
 export 'data/feedback_service.dart' show FeedbackService;
@@ -68,21 +65,15 @@ export 'logic/feedback_repository.dart'
         FeedbackRepoResponse,
         FeedbackRepoLoadResponse,
         FeedbackRepoUpdateResponse;
-export 'logic/feedback_bloc.dart'
-    show FeedbackCubit, FeedbackBaseState, ShowFeedbackState;
+export 'logic/feedback_bloc.dart' show FeedbackCubit, FeedbackBaseState, ShowFeedbackState;
 export 'logic/feedback_update_bloc.dart'
-    show
-        FeedbackUpdateCubit,
-        FeedbackUpdateBaseState,
-        UpdateInProgressState,
-        UpdateSucceededState;
+    show FeedbackUpdateCubit, FeedbackUpdateBaseState, UpdateInProgressState, UpdateSucceededState;
 export 'logic/podo/feedback_config.dart' show FeedbackConfig;
 export 'logic/podo/current_event_counters.dart' show CurrentFeedbackCounters;
 
 // Default implementations - Pre-built components ready to use
 export 'default/default_feedback_service.dart' show FakeFeedbackService;
-export 'default/default_configs_repository.dart'
-    show DefaultFeedbackConfigsRepository;
+export 'default/default_configs_repository.dart' show DefaultFeedbackConfigsRepository;
 export 'default/views/default_stars_view.dart' show DefaultStarsView;
 export 'default/views/default_button_view.dart' show DefaultButtonView;
 export 'default/views/default_dialog_builder.dart'
@@ -93,9 +84,8 @@ export 'default/views/default_dialog_builder.dart'
         defaultOpenDialogCallback,
         makeInformDialog;
 export 'default/views/default_success_dialog_view.dart'
-    show
-        DefaultSuccessDialogView,
-        DefaultSuccessDialogTextConfig,
-        buildDefaultSuccessDialogView;
-export 'default/views/default_write_us_page_builder.dart'
-    show buildDefaultWriteUsPageWidget;
+    show DefaultSuccessDialogView, DefaultSuccessDialogTextConfig, buildDefaultSuccessDialogView;
+export 'default/views/default_write_us_page_builder.dart' show buildDefaultWriteUsPageWidget;
+
+export 'default/views/default_dialog_builder.dart'
+    show defaultPopCallback, defaultWriteFeedbackCallback;
