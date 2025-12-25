@@ -85,3 +85,7 @@ Updated colors:
 ## 1.1.3
 
 Added colors and InputDecoration customizations
+
+## 1.1.4
+
+Fixed colors for success dialog

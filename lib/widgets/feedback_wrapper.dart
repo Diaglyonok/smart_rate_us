@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_rate_us/data/feedback_service.dart';
 import 'package:smart_rate_us/default/default_configs_repository.dart';
 import 'package:smart_rate_us/default/views/default_dialog_builder.dart';
+import 'package:smart_rate_us/default/views/default_success_dialog_view.dart';
 import 'package:smart_rate_us/default/views/default_write_us_page_builder.dart';
 import 'package:smart_rate_us/logic/config_repository.dart';
 import 'package:smart_rate_us/logic/feedback_repository.dart';
@@ -94,7 +95,11 @@ class FeedbackWrapperConfig {
       //default navigation callbacks
       onWriteFeedbackCallback = defaultWriteFeedbackCallback,
       onPopCallback = defaultPopCallback,
-      onFinalSuccessCallback = defaultOpenDialogCallback;
+      onFinalSuccessCallback = defaultFinalSuccessDialogCallback;
+
+  static Future<void> defaultFinalSuccessDialogCallback(BuildContext context) {
+    return defaultSuccessDialogCallback(context, (context) => buildDefaultSuccessDialogView());
+  }
 }
 
 /// Main wrapper widget that provides feedback functionality throughout the app.

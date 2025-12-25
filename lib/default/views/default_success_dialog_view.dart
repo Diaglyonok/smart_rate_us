@@ -25,7 +25,8 @@ class DefaultSuccessDialogTextConfig {
 
 class DefaultSuccessDialogView extends StatelessWidget {
   final DefaultSuccessDialogTextConfig textConfig;
-  const DefaultSuccessDialogView({super.key, required this.textConfig});
+  final Color? primaryColor;
+  const DefaultSuccessDialogView({super.key, required this.textConfig, this.primaryColor});
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +35,7 @@ class DefaultSuccessDialogView extends StatelessWidget {
       title: textConfig.title,
       subtitle2: textConfig.subtitle,
       buttonTitle: textConfig.buttonTitle,
+      customButtonColor: primaryColor,
     );
   }
 }

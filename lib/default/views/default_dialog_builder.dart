@@ -26,8 +26,11 @@ Widget buildDefaultDialogWidget(
   );
 }
 
-Future<void> defaultOpenDialogCallback(BuildContext context) async {
-  await showDialog(context: context, builder: (context) => buildDefaultSuccessDialogView());
+Future<void> defaultSuccessDialogCallback(
+  BuildContext context,
+  WidgetBuilder successDialogBuilder,
+) async {
+  await showDialog(context: context, builder: successDialogBuilder);
 
   if (context.mounted) {
     Navigator.of(context).pop();
@@ -149,6 +152,7 @@ SimpleDialog makeInformDialog({
   String? buttonTitle,
   bool negative = false,
   bool subtitleCentered = true,
+  Color? customButtonColor,
 }) {
   return SimpleDialog(
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
@@ -184,7 +188,8 @@ SimpleDialog makeInformDialog({
       DefaultButtonView(
         borderRadius: 8.0,
         title: buttonTitle ?? 'OK',
-        customBackgroundColor: negative ? Theme.of(context).colorScheme.error : null,
+        customBackgroundColor:
+            customButtonColor ?? (negative ? Theme.of(context).colorScheme.error : null),
         callback: () {
           Navigator.of(context).pop();
         },
