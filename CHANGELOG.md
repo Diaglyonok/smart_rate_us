@@ -89,3 +89,7 @@ Added colors and InputDecoration customizations
 ## 1.1.4
 
 Fixed colors for success dialog
+
+## 1.1.5
+
+Fixed unused imports

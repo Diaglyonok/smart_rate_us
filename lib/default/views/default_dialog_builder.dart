@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_rate_us/default/views/default_button_view.dart';
 import 'package:smart_rate_us/default/views/default_stars_view.dart';
-import 'package:smart_rate_us/default/views/default_success_dialog_view.dart';
 
 Widget buildDefaultDialogWidget(
   BuildContext context,

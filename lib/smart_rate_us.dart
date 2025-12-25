@@ -81,7 +81,7 @@ export 'default/views/default_dialog_builder.dart'
         DoYouLoveUsDefaultDialog,
         DefaultDialogTextConfig,
         buildDefaultDialogWidget,
-        defaultOpenDialogCallback,
+        defaultSuccessDialogCallback,
         makeInformDialog;
 export 'default/views/default_success_dialog_view.dart'
     show DefaultSuccessDialogView, DefaultSuccessDialogTextConfig, buildDefaultSuccessDialogView;
