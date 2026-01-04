@@ -89,3 +89,5 @@ export 'default/views/default_write_us_page_builder.dart' show buildDefaultWrite
 
 export 'default/views/default_dialog_builder.dart'
     show defaultPopCallback, defaultWriteFeedbackCallback;
+
+export 'widgets/feedback_repo_wrapper.dart' show FeedbackRepoWrapper;
