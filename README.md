@@ -26,7 +26,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  smart_rate_us: ^1.1.8
+  smart_rate_us: ^1.1.9
 ```
 
 ## Usage
