@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_rate_us/logic/feedback_repository.dart';
+import 'package:smart_rate_us/widgets/feedaback_repo_provider.dart';
 import 'package:smart_rate_us/widgets/feedback_wrapper.dart';
 
 /// Wrapper widget that provides [FeedbackRepository] to the widget tree.
@@ -47,7 +48,14 @@ class FeedbackRepoWrapper extends StatelessWidget {
         return repo;
       },
 
-      child: child,
+      child: Builder(
+        builder: (context) {
+          return FeedbackRepoProvider(
+            feedbackRepository: RepositoryProvider.of<FeedbackRepository>(context),
+            child: child,
+          );
+        },
+      ),
     );
   }
 }

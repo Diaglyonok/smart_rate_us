@@ -121,3 +121,6 @@ Updated README.md
 * Updated README.md: fixed version number and removed outdated `onRepositoryCreated` callback reference
 
 
+1.1.9
+
+Fixed small issues
