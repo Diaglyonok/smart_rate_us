@@ -16,15 +16,20 @@
 ///
 /// ## Quick Start
 ///
-/// 1. Wrap your app with [FeedbackWrapper]:
+/// 1. Wrap your app by [FeedbackRepoWrapper] and body by [FeedbackWidgetWrapper]:
 /// ```dart
-/// MaterialApp(
-///   home: FeedbackWrapper(
-///     feedbackConfig: FeedbackWrapperConfig.defaultConfig(
-///       feedbackService: YourFeedbackService(),
-///     ),
-///     child: YourMainWidget(),
-///   ),
+/// final config = FeedbackWrapperConfig.defaultConfig(
+///   feedbackService: YourFeedbackService(),
+/// );
+///
+/// return FeedbackRepoWrapper(
+///   feedbackConfig: config,
+///   child: MaterialApp(
+///    home: FeedbackWidgetWrapper(
+///      feedbackConfig: config,
+///      child: YourMainWidget(),
+///    ),
+///  )
 /// )
 /// ```
 ///
@@ -35,7 +40,7 @@
 ///
 /// ## Core Components
 ///
-/// - [FeedbackWrapper] - Main wrapper widget that sets up the feedback system
+/// - [FeedbackWidgetWrapper] - Main wrapper widget that sets up the feedback system
 /// - [FeedbackRepoProvider] - Provides access to feedback functionality
 /// - [DoYouLoveUsDialog] - Handles the initial rating prompt
 /// - [WriteFeedbackScreen] - Collects detailed user feedback
@@ -51,7 +56,7 @@
 library;
 
 // Core functionality - Main widgets for implementing feedback flow
-export 'widgets/feedback_wrapper.dart' show FeedbackWrapper, FeedbackWrapperConfig;
+export 'widgets/feedback_wrapper.dart' show FeedbackWidgetWrapper, FeedbackWrapperConfig;
 export 'widgets/feedaback_repo_provider.dart' show FeedbackRepoProvider;
 export 'widgets/do_you_love_us_dialog.dart' show DoYouLoveUsDialog, DialogBuilder;
 export 'widgets/write_feedback_screen.dart' show WriteFeedbackScreen, WriteFeedbackPageBuilder;
