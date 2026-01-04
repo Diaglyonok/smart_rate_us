@@ -26,14 +26,16 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  smart_rate_us: ^1.0.0
+  smart_rate_us: ^1.1.8
 ```
 
 ## Usage
 
 ### Basic Setup
 
-Wrap your app with `FeedbackWrapper`:
+Wrap your body with `FeedbackWidgetWrapper` and app with `FeedbackRepoWrapper`:
+FeedbackRepoWrapper is needed to create a repository for the whole app.
+And FeedbackWidgetWrapper wraps the widget to get an access to Navigator/Router
 
 ```dart
 import 'package:smart_rate_us/widgets/feedback_wrapper.dart';
@@ -42,14 +44,19 @@ import 'package:smart_rate_us/default/default_feedback_service.dart';
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: FeedbackWrapper(
-        feedbackConfig: FeedbackWrapperConfig.defaultConfig(
-          // Implement FeedbackService - use FakeFeedbackService as an example
-          feedbackService: YourFeedbackService(),
+    final config =  FeedbackWrapperConfig.defaultConfig(
+      // Implement FeedbackService - use FakeFeedbackService as an example
+      feedbackService: YourFeedbackService(),
+    );
+    
+    return FeedbackRepoWrapper(
+      feedbackConfig: config,
+      child: MaterialApp(
+        home: FeedbackWidgetWrapper(
+          feedbackConfig: config,
+          child: YourMainWidget(),
         ),
-        child: YourMainWidget(),
-      ),
+      )
     );
   }
 }
@@ -75,8 +82,6 @@ Every UI step, loading of configurations, and sending messages to your service a
 // Trigger rating prompt after specific user actions
 FeedbackRepoProvider.of(context)?.addCounterAndCheck('success_action_5');
 ```
-
-Or use the `onRepositoryCreated` callback to save `FeedbackRepo` to your own DI container and use it later.
 
 ### Custom Dialog UI
 
@@ -222,7 +227,8 @@ class YourConfigService extends ConfigsService {
 
 ## Widget Components
 
-- **FeedbackWrapper**: Main wrapper component
+- **FeedbackRepoWrapper**: Main app-wrapper component
+- **FeedbackWidgetWrapper**: Main body-wrapper component
 - **DoYouLoveUsDialog**: Rating prompt dialog
 - **WriteFeedbackScreen**: Feedback collection screen
 - **DefaultStarsView**: Animated stars component

@@ -111,3 +111,13 @@ Updated README.md
 ### Improvements
 * Updated test signatures to match new API
 * Better platform detection for keyboard shortcuts
+
+## 1.1.8
+
+### 📚 Documentation
+* Added dartdoc documentation to `FeedbackRepoWrapper` class with class description, usage example, constructor and fields documentation
+
+### 🛠️ Improvements
+* Updated README.md: fixed version number and removed outdated `onRepositoryCreated` callback reference
+
+

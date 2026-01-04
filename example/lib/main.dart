@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smart_rate_us/default/default_feedback_service.dart';
 import 'package:smart_rate_us/widgets/feedaback_repo_provider.dart';
+import 'package:smart_rate_us/widgets/feedback_repo_wrapper.dart';
 import 'package:smart_rate_us/widgets/feedback_wrapper.dart';
 
 void main() {
@@ -13,12 +14,16 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple)),
-      home: FeedbackWrapper(
-        feedbackConfig: FeedbackWrapperConfig.defaultConfig(feedbackService: FakeFeedbackService()),
-        child: const MyHomePage(title: 'Flutter Demo Home Page'),
+    final config = FeedbackWrapperConfig.defaultConfig(feedbackService: FakeFeedbackService());
+    return FeedbackRepoWrapper(
+      feedbackConfig: config,
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple)),
+        home: FeedbackWidgetWrapper(
+          feedbackConfig: config,
+          child: const MyHomePage(title: 'Flutter Demo Home Page'),
+        ),
       ),
     );
   }

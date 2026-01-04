@@ -119,17 +119,16 @@ class FeedbackWrapperConfig {
 ///   ),
 /// )
 /// ```
-class FeedbackWrapper extends StatefulWidget {
+class FeedbackWidgetWrapper extends StatefulWidget {
   /// Creates a new FeedbackWrapper.
   ///
   /// [child] - The main widget to be wrapped
   /// [feedbackConfig] - Configuration for the feedback system
   /// [onRepositoryCreated] - Optional callback when the repository is created
-  const FeedbackWrapper({
+  const FeedbackWidgetWrapper({
     super.key,
     required this.child,
     required this.feedbackConfig,
-    this.onRepositoryCreated,
     this.getUserEmail,
   });
 
@@ -138,10 +137,6 @@ class FeedbackWrapper extends StatefulWidget {
 
   /// Configuration for the feedback system
   final FeedbackWrapperConfig feedbackConfig;
-
-  /// Optional callback that is called when the FeedbackRepository is created.
-  /// Useful for saving the repository reference to your own DI container.
-  final void Function(FeedbackRepository remoteConfigRepo)? onRepositoryCreated;
 
   /// Optional callback that is called when the user email is needed.
   ///
@@ -152,10 +147,10 @@ class FeedbackWrapper extends StatefulWidget {
   final String Function(BuildContext context)? getUserEmail;
 
   @override
-  State<FeedbackWrapper> createState() => _FeedbackWrapperState();
+  State<FeedbackWidgetWrapper> createState() => _FeedbackWrapperState();
 }
 
-class _FeedbackWrapperState extends State<FeedbackWrapper> {
+class _FeedbackWrapperState extends State<FeedbackWidgetWrapper> {
   @override
   void initState() {
     super.initState();
@@ -163,53 +158,38 @@ class _FeedbackWrapperState extends State<FeedbackWrapper> {
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider(
-      create: (context) {
-        final repo = FeedbackRepository(
-          feedbackService: widget.feedbackConfig.feedbackService,
-          remoteConfigRepo: widget.feedbackConfig.remoteConfigRepo,
-        );
-        widget.onRepositoryCreated?.call(repo);
-        return repo;
-      },
-      child: Builder(
-        builder: (context) {
-          return FeedbackRepoProvider(
-            feedbackRepository: RepositoryProvider.of<FeedbackRepository>(context),
-            child: BlocProvider<FeedbackCubit>(
-              create: (context) =>
-                  FeedbackCubit(repository: RepositoryProvider.of<FeedbackRepository>(context)),
-              child: BlocListener<FeedbackCubit, FeedbackBaseState>(
-                child: widget.child,
-                listener: (context, state) {
-                  if (state is ShowFeedbackState && !kIsWeb) {
-                    final repo = RepositoryProvider.of<FeedbackRepository>(context);
-                    final userEmail = widget.getUserEmail?.call(context);
+    return FeedbackRepoProvider(
+      feedbackRepository: RepositoryProvider.of<FeedbackRepository>(context),
+      child: BlocProvider<FeedbackCubit>(
+        create: (context) =>
+            FeedbackCubit(repository: RepositoryProvider.of<FeedbackRepository>(context)),
+        child: BlocListener<FeedbackCubit, FeedbackBaseState>(
+          child: widget.child,
+          listener: (context, state) {
+            if (state is ShowFeedbackState && !kIsWeb) {
+              final repo = RepositoryProvider.of<FeedbackRepository>(context);
+              final userEmail = widget.getUserEmail?.call(context);
 
-                    unawaited(
-                      showDialog(
-                        barrierDismissible: false,
-                        context: context,
-                        builder: (context) => RepositoryProvider.value(
-                          value: repo,
-                          child: DoYouLoveUsDialog(
-                            onPopCallback: widget.feedbackConfig.onPopCallback!,
-                            onWriteFeedbackCallback: widget.feedbackConfig.onWriteFeedbackCallback,
-                            writeFeedbackPageBuilder:
-                                widget.feedbackConfig.writeFeedbackPageBuilder,
-                            onFinalSuccessCallback: widget.feedbackConfig.onFinalSuccessCallback,
-                            dialogBuilder: widget.feedbackConfig.doYouLoveUsDialogBuilder,
-                            userEmail: userEmail,
-                          ),
-                        ),
-                      ),
-                    );
-                  }
-                },
-              ),
-            ),
-          );
-        },
+              unawaited(
+                showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (context) => RepositoryProvider.value(
+                    value: repo,
+                    child: DoYouLoveUsDialog(
+                      onPopCallback: widget.feedbackConfig.onPopCallback!,
+                      onWriteFeedbackCallback: widget.feedbackConfig.onWriteFeedbackCallback,
+                      writeFeedbackPageBuilder: widget.feedbackConfig.writeFeedbackPageBuilder,
+                      onFinalSuccessCallback: widget.feedbackConfig.onFinalSuccessCallback,
+                      dialogBuilder: widget.feedbackConfig.doYouLoveUsDialogBuilder,
+                      userEmail: userEmail,
+                    ),
+                  ),
+                ),
+              );
+            }
+          },
+        ),
       ),
     );
   }

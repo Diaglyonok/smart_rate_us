@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:smart_rate_us/data/feedback_service.dart';
 import 'package:smart_rate_us/logic/config_repository.dart';
 import 'package:smart_rate_us/logic/feedback_repository.dart';
+import 'package:smart_rate_us/widgets/feedback_repo_wrapper.dart';
 import 'package:smart_rate_us/widgets/feedback_wrapper.dart';
 
 class MockFeedbackService extends FeedbackService {
@@ -16,11 +18,7 @@ class MockFeedbackService extends FeedbackService {
 
 class MockConfigsService extends ConfigsService {
   final Map<String, dynamic> _configs = {
-    "events": {
-      "success_action_2": 2,
-      "success_action_3": 3,
-      "success_action_5": 5,
-    },
+    "events": {"success_action_2": 2, "success_action_3": 3, "success_action_5": 5},
     "expiration_delay_days": 7,
     "do_not_disturb_on_new_version": true,
   };
@@ -57,8 +55,7 @@ void main() {
         },
         feedbackService: feedbackService,
         remoteConfigRepo: MockConfigsService(),
-        doYouLoveUsDialogBuilder: (context, onLike, onDislike, onRemindLater) =>
-            Container(),
+        doYouLoveUsDialogBuilder: (context, onLike, onDislike, onRemindLater) => Container(),
         writeFeedbackPageBuilder: (context, isLoading, onSend, userEmail) => Container(),
         onFinalSuccessCallback: (context) async {},
       );
@@ -72,9 +69,7 @@ void main() {
 
     test('creates default config', () {
       final feedbackService = MockFeedbackService();
-      final config = FeedbackWrapperConfig.defaultConfig(
-        feedbackService: feedbackService,
-      );
+      final config = FeedbackWrapperConfig.defaultConfig(feedbackService: feedbackService);
 
       expect(config.feedbackService, equals(feedbackService));
       expect(config.remoteConfigRepo, isNotNull);
@@ -106,27 +101,26 @@ void main() {
         },
         feedbackService: MockFeedbackService(),
         remoteConfigRepo: MockConfigsService(),
-        doYouLoveUsDialogBuilder: (context, onLike, onDislike, onRemindLater) =>
-            Container(),
+        doYouLoveUsDialogBuilder: (context, onLike, onDislike, onRemindLater) => Container(),
         writeFeedbackPageBuilder: (context, isLoading, onSend, userEmail) => Container(),
         onFinalSuccessCallback: (context) async {},
       );
       createdRepository = null;
     });
 
-    Widget createWrapper({
-      Widget? child,
-      void Function(FeedbackRepository)? onRepoCreated,
-    }) {
-      return MaterialApp(
-        home: FeedbackWrapper(
-          feedbackConfig: config,
-          onRepositoryCreated:
-              onRepoCreated ??
-              (repo) {
-                createdRepository = repo;
-              },
-          child: child ?? const Text('Child Widget'),
+    Widget createWrapper({Widget? child, void Function(FeedbackRepository)? onRepoCreated}) {
+      return FeedbackRepoWrapper(
+        feedbackConfig: config,
+        child: Builder(
+          builder: (context) {
+            createdRepository = RepositoryProvider.of<FeedbackRepository>(context);
+            return MaterialApp(
+              home: FeedbackWidgetWrapper(
+                feedbackConfig: config,
+                child: child ?? const Text('Child Widget'),
+              ),
+            );
+          },
         ),
       );
     }
@@ -135,12 +129,10 @@ void main() {
       await tester.pumpWidget(createWrapper(child: const Text('Test Child')));
 
       expect(find.text('Test Child'), findsOneWidget);
-      expect(find.byType(FeedbackWrapper), findsOneWidget);
+      expect(find.byType(FeedbackWidgetWrapper), findsOneWidget);
     });
 
-    testWidgets('creates and provides FeedbackRepository', (
-      WidgetTester tester,
-    ) async {
+    testWidgets('creates and provides FeedbackRepository', (WidgetTester tester) async {
       await tester.pumpWidget(createWrapper());
 
       expect(createdRepository, isNotNull);
@@ -151,13 +143,13 @@ void main() {
       await tester.pumpWidget(createWrapper(child: const Text('Test Child')));
 
       expect(find.text('Test Child'), findsOneWidget);
-      expect(find.byType(FeedbackWrapper), findsOneWidget);
+      expect(find.byType(FeedbackWidgetWrapper), findsOneWidget);
     });
 
     testWidgets('has proper widget structure', (WidgetTester tester) async {
       await tester.pumpWidget(createWrapper());
 
-      expect(find.byType(FeedbackWrapper), findsOneWidget);
+      expect(find.byType(FeedbackWidgetWrapper), findsOneWidget);
       expect(find.text('Child Widget'), findsOneWidget);
     });
   });
